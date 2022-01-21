@@ -42,7 +42,8 @@ class IQ_Gravity_Forms_Styles extends Tab_Base {
 		$field_wrapper_selectors = [
 			'{{WRAPPER}} .gform_wrapper.gravity-theme .ginput_container_address span:not(.ginput_full):not(:last-of-type):not(:nth-last-of-type(2))',
 			'{{WRAPPER}} .gform_wrapper.gravity-theme .ginput_full:not(:last-of-type)',
-			'{{WRAPPER}} .gform-body .gfield',
+			'{{WRAPPER}} .gform-body .gfield:not(fieldset)',
+			'{{WRAPPER}} .gform-body .ginput_complex span',
 		];
 
 		$input_selectors = [
@@ -147,6 +148,33 @@ class IQ_Gravity_Forms_Styles extends Tab_Base {
 			]
 		);
 
+		$this->add_responsive_control(
+			'gform_field_padding',
+			[
+				'label' => esc_html__( 'Padding', 'elementor' ),
+				'type' => Controls_Manager::DIMENSIONS,
+				'size_units' => [ 'px', 'em', '%' ],
+				'selectors' => [
+					$input_selector => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				],
+				'separator' => 'before',
+			]
+		);
+
+		$this->add_control(
+			'gform_placeholder_color',
+			[
+				'label' => esc_html__( 'Placeholder', 'elementor' ),
+				'type' => Controls_Manager::COLOR,
+				'dynamic' => [],
+				'selectors' => [
+					'{{WRAPPER}} ::placeholder' => 'color: {{VALUE}};',
+					'{{WRAPPER}} :-ms-input-placeholder' => 'color: {{VALUE}};',
+					'{{WRAPPER}} ::-ms-input-placeholder' => 'color: {{VALUE}};',
+				],
+			]
+		);
+
 		$this->start_controls_tabs( 'tabs_gform_field_style' );
 
 		$this->start_controls_tab(
@@ -240,19 +268,6 @@ class IQ_Gravity_Forms_Styles extends Tab_Base {
 		);
 
 		$this->add_form_field_state_tab_controls( 'gform_file_field', $file_input_selector );
-
-		$this->add_responsive_control(
-			'gform_field_padding',
-			[
-				'label' => esc_html__( 'Padding', 'elementor' ),
-				'type' => Controls_Manager::DIMENSIONS,
-				'size_units' => [ 'px', 'em', '%' ],
-				'selectors' => [
-					$input_selector => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-				],
-				'separator' => 'before',
-			]
-		);
 
 		$this->add_responsive_control(
 			'gform_field_spacing',
