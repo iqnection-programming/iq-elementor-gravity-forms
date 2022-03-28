@@ -36,7 +36,11 @@ class IQ_Gravity_Forms_Styles extends Tab_Base {
 
 	protected function register_tab_controls() {
 		$label_selectors = [
-			'{{WRAPPER}} .gform-body label',
+			'{{WRAPPER}} .gform-body .gfield_label',
+		];
+
+		$sublabel_selectors = [
+			'{{WRAPPER}} .gform-body .ginput_complex label',
 		];
 
 		$field_wrapper_selectors = [
@@ -47,7 +51,7 @@ class IQ_Gravity_Forms_Styles extends Tab_Base {
 		];
 
 		$input_selectors = [
-			'{{WRAPPER}} .gform-body .gfield input:not([type="button"]):not([type="submit"])',
+			'{{WRAPPER}} .gform-body .gfield input:not([type="button"]):not([type="submit"]):not([type="file"])',
 			'{{WRAPPER}} .gform-body .gfield textarea',
 			'{{WRAPPER}} .gform-body .gfield select',
 		];
@@ -82,6 +86,7 @@ class IQ_Gravity_Forms_Styles extends Tab_Base {
 		];
 
 		$label_selector = implode( ',', $label_selectors );
+		$sublabel_selector = implode( ',', $sublabel_selectors );
 		$field_wrapper_selector = implode( ',', $field_wrapper_selectors );
 		$input_selector = implode( ',', $input_selectors );
 		$file_input_selector = implode( ',', $file_input_selectors );
@@ -91,21 +96,41 @@ class IQ_Gravity_Forms_Styles extends Tab_Base {
 		$button_selector_hover = implode( ',', $button_selectors_hover );
 		$gform_footer_selector = implode( ',', $gform_footer_selectors );
 
+
+		// General
 		$this->start_controls_section(
-			'section_gform_fields',
+			'section_gform_general',
 			[
-				'label' => esc_html__( 'Form Fields', 'elementor' ),
+				'label' => esc_html__( 'General', 'elementor' ),
 				'tab' => $this->get_id(),
 			]
 		);
 
 		$this->add_default_globals_notice();
 
-		$this->add_control(
-			'gform_label_heading',
+		$this->add_responsive_control(
+			'gform_field_spacing',
 			[
-				'type' => Controls_Manager::HEADING,
-				'label' => esc_html__( 'Label', 'elementor' ),
+				'label' => esc_html__( 'Vertical Spacing', 'elementor' ),
+				'type' => Controls_Manager::SLIDER,
+				'size_units' => [ 'px', 'em', '%' ],
+				'selectors' => [
+					$field_wrapper_selector => 'margin-bottom: {{SIZE}}{{UNIT}};',
+				],
+				'separator' => 'before',
+			]
+		);
+
+		$this->end_controls_section();
+
+		////////////////////////////////////////////////////////////////////
+
+		// Labels
+		$this->start_controls_section(
+			'section_gform_labels',
+			[
+				'label' => esc_html__( 'Labels', 'elementor' ),
+				'tab' => $this->get_id(),
 			]
 		);
 
@@ -131,11 +156,43 @@ class IQ_Gravity_Forms_Styles extends Tab_Base {
 		);
 
 		$this->add_control(
-			'gform_field_heading',
+			'gform_sublabel_heading',
 			[
 				'type' => Controls_Manager::HEADING,
-				'label' => esc_html__( 'Fields', 'elementor' ),
-				'separator' => 'before',
+				'label' => esc_html__( 'Sub-Label', 'elementor' ),
+			]
+		);
+
+		$this->add_control(
+			'gform_sublabel_color',
+			[
+				'label' => esc_html__( 'Color', 'elementor' ),
+				'type' => Controls_Manager::COLOR,
+				'dynamic' => [],
+				'selectors' => [
+					$sublabel_selector => 'color: {{VALUE}};',
+				],
+			]
+		);
+
+		$this->add_group_control(
+			Group_Control_Typography::get_type(),
+			[
+				'label' => esc_html__( 'Typography', 'elementor' ),
+				'name' => 'gform_sublabel_typography',
+				'selector' => $sublabel_selector,
+			]
+		);
+
+		$this->end_controls_section();
+
+		////////////////////////////////////////////////////////////////////
+
+		$this->start_controls_section(
+			'section_gform_fields',
+			[
+				'label' => esc_html__( 'Form Inputs', 'elementor' ),
+				'tab' => $this->get_id(),
 			]
 		);
 
@@ -246,12 +303,15 @@ class IQ_Gravity_Forms_Styles extends Tab_Base {
 
 		$this->end_controls_tabs();
 
-		$this->add_control(
-			'gform_file_field_heading',
+		$this->end_controls_section();
+
+		////////////////////////////////////////////////////////////////////
+
+		$this->start_controls_section(
+			'section_gform_filefield',
 			[
-				'type' => Controls_Manager::HEADING,
 				'label' => esc_html__( 'Upload Field', 'elementor' ),
-				'separator' => 'before',
+				'tab' => $this->get_id(),
 			]
 		);
 
@@ -268,19 +328,6 @@ class IQ_Gravity_Forms_Styles extends Tab_Base {
 		);
 
 		$this->add_form_field_state_tab_controls( 'gform_file_field', $file_input_selector );
-
-		$this->add_responsive_control(
-			'gform_field_spacing',
-			[
-				'label' => esc_html__( 'Vertical Spacing', 'elementor' ),
-				'type' => Controls_Manager::SLIDER,
-				'size_units' => [ 'px', 'em', '%' ],
-				'selectors' => [
-					$field_wrapper_selector => 'margin-bottom: {{SIZE}}{{UNIT}};',
-				],
-				'separator' => 'before',
-			]
-		);
 
 		$this->end_controls_section();
 

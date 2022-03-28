@@ -11,7 +11,7 @@
  * @wordpress-plugin
  * Plugin Name:       Elementor Gravity Forms
  * Description:       Provides global style settings for Gravity Forms
- * Version:           0.0.1
+ * Version:           1.0.1
  * Requires at least: 5.3
  * Requires PHP:      7.1
  * Author:            IQnection
@@ -25,7 +25,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die();
 }
 
-define( 'IQ_ELEMENTOR_GRAVITY_FORMS_VERSION', '0.0.1' );
+define( 'IQ_ELEMENTOR_GRAVITY_FORMS_VERSION', '1.0.1' );
 
 require_once(__DIR__.'/updates/check-requirements.php');
 require_once (__DIR__.'/updates/update.php');
